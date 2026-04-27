@@ -1,0 +1,226 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+  color: #1f2937;
+  background:
+    radial-gradient(circle at top left, #dbeafe, transparent 35%),
+    linear-gradient(135deg, #f8fafc, #e0f2fe);
+  min-height: 100vh;
+}
+
+.hero {
+  padding: 70px 20px;
+  text-align: center;
+  color: white;
+  background: linear-gradient(135deg, #1e3a8a, #2563eb, #14b8a6);
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 13px;
+  font-weight: 600;
+  opacity: 0.9;
+}
+
+h1 {
+  font-size: 48px;
+  margin: 10px 0;
+}
+
+.hero-text {
+  max-width: 650px;
+  margin: auto;
+  font-size: 18px;
+}
+
+main {
+  max-width: 1150px;
+  margin: -35px auto 50px;
+  padding: 20px;
+}
+
+.form-card,
+.summary-card,
+.calendar-section {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(10px);
+  padding: 28px;
+  margin-bottom: 25px;
+  border-radius: 24px;
+  box-shadow: 0 15px 35px rgba(30, 58, 138, 0.12);
+}
+
+h2 {
+  margin-top: 0;
+  color: #1e3a8a;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+}
+
+input {
+  width: 100%;
+  padding: 13px;
+  border: 1px solid #cbd5e1;
+  border-radius: 12px;
+  font-size: 15px;
+  font-family: inherit;
+}
+
+button {
+  margin-top: 25px;
+  width: 100%;
+  padding: 15px;
+  border: none;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #2563eb, #14b8a6);
+  color: white;
+  font-size: 17px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(37, 99, 235, 0.25);
+}
+
+.calendar-placeholder {
+  color: #64748b;
+  padding: 30px;
+  border: 2px dashed #bae6fd;
+  border-radius: 16px;
+  text-align: center;
+}
+
+.calendar {
+  display: grid;
+  grid-template-columns: 90px repeat(7, 1fr);
+  border: 2px solid #1e3a8a;
+  border-radius: 16px;
+  overflow: hidden;
+  background: white;
+}
+
+.calendar-header {
+  background: #1e3a8a;
+  color: white;
+  padding: 12px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.week-label {
+  background: linear-gradient(180deg, #22c55e, #14b8a6);
+  color: white;
+  padding: 20px 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  text-align: center;
+}
+
+.day-cell {
+  min-height: 145px;
+  padding: 10px;
+  border-left: 1px solid #bfdbfe;
+  border-bottom: 1px solid #bfdbfe;
+  font-size: 13px;
+}
+
+.date-label {
+  font-weight: 700;
+  color: #0f766e;
+  margin-bottom: 8px;
+}
+
+.task {
+  background: #e0f2fe;
+  border-left: 4px solid #2563eb;
+  padding: 8px;
+  border-radius: 8px;
+  margin-bottom: 8px;
+}
+
+.practice {
+  background: #dcfce7;
+  border-left-color: #16a34a;
+}
+
+.error {
+  color: #dc2626;
+  font-weight: 600;
+}
+
+@media (max-width: 850px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .calendar {
+    grid-template-columns: 70px repeat(7, 170px);
+    overflow-x: auto;
+  }
+
+  .calendar-section {
+    overflow-x: auto;
+  }
+
+  h1 {
+    font-size: 36px;
+  }
+}
+.checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.checkbox-row input {
+  width: auto;
+}
+
+.checkbox-row label {
+  margin: 0;
+  font-weight: 500;
+}
+.check-item {
+  display: block;
+  margin-top: 10px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.check-item input {
+  width: auto;
+  margin-right: 6px;
+}
+.exam-day {
+  background: linear-gradient(135deg, #fde68a, #fca5a5);
+  border-left-color: #f59e0b;
+  text-align: center;
+  font-weight: 600;
+}
+
+.exam-star {
+  margin-left: 6px;
+  font-size: 16px;
+}
