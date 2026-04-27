@@ -39,3 +39,4 @@ REST APIs (optional):
 Libraries/Frameworks (optional for stretch):
 Chart.js or similar for progress visualization
 A frontend framework like React (if expanding functionality)
+A frontend framework like React (if expanding functionality)
