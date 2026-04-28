@@ -12,9 +12,12 @@
 
   <nav class="top-nav">
     <h3>Saved Calendars</h3>
+
     <select id="savedCalendars" onchange="loadSelectedCalendar()">
       <option value="">Choose saved calendar</option>
     </select>
+
+    <button class="nav-btn" onclick="deleteSelectedCalendar()">Delete Calendar</button>
   </nav>
 
   <header class="hero">
@@ -43,7 +46,7 @@
 
   <main class="layout">
     <div class="main-content">
-      <section class="form-card">
+      <section class="form-card no-print">
         <h2>Build Your Plan</h2>
 
         <label>Calendar Title</label>
@@ -73,16 +76,17 @@
 
         <button onclick="generatePlan()">Generate Calendar</button>
         <button class="save-btn" onclick="saveCurrentCalendar()">Save Calendar</button>
+        <button class="print-btn" onclick="printCalendar()">Print / Save Calendar as PDF</button>
       </section>
 
-      <section class="summary-card">
+      <section class="summary-card" id="printSummary">
         <h2>Your Study Overview</h2>
         <div id="summaryOutput">
           <p>Enter your study details to generate your personalized CPA study calendar.</p>
         </div>
       </section>
 
-      <section class="calendar-section">
+      <section class="calendar-section" id="printCalendarArea">
         <h2>Visual Study Calendar</h2>
         <div id="calendarOutput" class="calendar-placeholder">
           Your weekly calendar will appear here.
@@ -90,7 +94,7 @@
       </section>
     </div>
 
-    <aside class="todo-card">
+    <aside class="todo-card no-print">
       <h2>To-Do List</h2>
 
       <div class="todo-input-row">

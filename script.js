@@ -4,7 +4,7 @@ const nycBackgrounds = [
   "https://images.unsplash.com/photo-1534430480872-3498386e7856?auto=format&fit=crop&w=1600&q=80",
   "https://images.unsplash.com/photo-1499092346589-b9b6be3e94b2?auto=format&fit=crop&w=1600&q=80",
   "https://images.unsplash.com/photo-1500916434205-0c77489c6cf7?auto=format&fit=crop&w=1600&q=80",
-  "https://images.unsplash.com/photo-1518391846015-55a9cc003b25?auto=format&fit=crop&w=1600&q=80"
+  "https://images.unsplash.com/photo-1500916434205-0c77489c6cf7?auto=format&fit=crop&w=1600&q=80"
 ];
 
 let backgroundIndex = 0;
@@ -109,7 +109,7 @@ function generatePlan() {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
-  const testDay = new Date(examDate);
+  const testDay = new Date(examDate + "T00:00:00");
   testDay.setHours(0, 0, 0, 0);
 
   const daysLeft = Math.ceil((testDay - today) / (1000 * 60 * 60 * 24));
@@ -138,6 +138,7 @@ function generatePlan() {
     id: Date.now().toString(),
     title,
     examDate,
+    startDate: formatDateForStorage(today),
     modules,
     studyHours,
     practiceHours,
@@ -160,6 +161,8 @@ function renderCurrentCalendar() {
 
   summaryOutput.innerHTML = `
     <p><strong>Calendar:</strong> ${currentCalendar.title}</p>
+    <p><strong>Start date:</strong> ${formatDisplayDate(new Date(currentCalendar.startDate + "T00:00:00"))}</p>
+    <p><strong>Exam date:</strong> ${formatDisplayDate(new Date(currentCalendar.examDate + "T00:00:00"))}</p>
     <p><strong>Days until exam:</strong> ${currentCalendar.daysLeft}</p>
     <p><strong>Content study period:</strong> ${currentCalendar.contentDays} days</p>
     <p><strong>Final practice period:</strong> Last 7 days</p>
@@ -182,6 +185,7 @@ function createCalendar() {
   });
 
   const weeksLeft = Math.ceil(currentCalendar.daysLeft / 7);
+  const startDate = new Date(currentCalendar.startDate + "T00:00:00");
 
   for (let week = 1; week <= weeksLeft; week++) {
     calendarHTML += `<div class="week-label">Week<br>${week}</div>`;
@@ -194,6 +198,9 @@ function createCalendar() {
         continue;
       }
 
+      const cellDate = new Date(startDate);
+      cellDate.setDate(startDate.getDate() + dayCounter - 1);
+
       const isExamDay = dayCounter === currentCalendar.daysLeft;
 
       calendarHTML += `<div class="day-cell">`;
@@ -202,6 +209,7 @@ function createCalendar() {
         <div class="date-label">
           Day ${dayCounter}
           ${isExamDay ? '<span class="exam-star">⭐</span>' : ''}
+          <span class="real-date">${formatDisplayDate(cellDate)}</span>
         </div>
       `;
 
@@ -290,7 +298,6 @@ function saveCurrentCalendar() {
   }
 
   const calendars = getSavedCalendars();
-
   const existingIndex = calendars.findIndex(calendar => calendar.id === currentCalendar.id);
 
   if (existingIndex >= 0) {
@@ -305,6 +312,44 @@ function saveCurrentCalendar() {
   populateSavedCalendarDropdown();
 
   alert("Calendar saved!");
+}
+
+function deleteSelectedCalendar() {
+  const selectedId = document.getElementById("savedCalendars").value;
+
+  if (!selectedId) {
+    alert("Please select a saved calendar to delete.");
+    return;
+  }
+
+  const confirmDelete = confirm("Are you sure you want to delete this saved calendar?");
+  if (!confirmDelete) return;
+
+  const calendars = getSavedCalendars().filter(calendar => calendar.id !== selectedId);
+
+  localStorage.setItem("savedCalendars", JSON.stringify(calendars));
+
+  if (currentCalendar && currentCalendar.id === selectedId) {
+    currentCalendar = null;
+
+    document.getElementById("calendarTitle").value = "";
+    document.getElementById("examDate").value = "";
+    document.getElementById("modules").value = "";
+    document.getElementById("studyHours").value = "";
+    document.getElementById("practiceHours").value = "";
+
+    document.getElementById("summaryOutput").innerHTML =
+      `<p>Enter your study details to generate your personalized CPA study calendar.</p>`;
+
+    document.getElementById("calendarOutput").className = "calendar-placeholder";
+    document.getElementById("calendarOutput").innerHTML =
+      "Your weekly calendar will appear here.";
+
+    localStorage.removeItem("lastOpenedCalendarId");
+  }
+
+  populateSavedCalendarDropdown();
+  alert("Calendar deleted.");
 }
 
 function updateSavedCalendarIfExists() {
@@ -350,6 +395,10 @@ function loadSelectedCalendar() {
 
   currentCalendar = selectedCalendar;
 
+  if (!currentCalendar.startDate) {
+    currentCalendar.startDate = formatDateForStorage(new Date());
+  }
+
   document.getElementById("calendarTitle").value = currentCalendar.title;
   document.getElementById("examDate").value = currentCalendar.examDate;
   document.getElementById("modules").value = currentCalendar.modules;
@@ -372,6 +421,10 @@ function loadLastOpenedCalendar() {
   if (lastCalendar) {
     currentCalendar = lastCalendar;
 
+    if (!currentCalendar.startDate) {
+      currentCalendar.startDate = formatDateForStorage(new Date());
+    }
+
     document.getElementById("calendarTitle").value = currentCalendar.title;
     document.getElementById("examDate").value = currentCalendar.examDate;
     document.getElementById("modules").value = currentCalendar.modules;
@@ -380,6 +433,31 @@ function loadLastOpenedCalendar() {
 
     renderCurrentCalendar();
   }
+}
+
+function printCalendar() {
+  if (!currentCalendar) {
+    alert("Please generate a calendar first.");
+    return;
+  }
+
+  window.print();
+}
+
+function formatDisplayDate(date) {
+  return date.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric"
+  });
+}
+
+function formatDateForStorage(date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+
+  return `${year}-${month}-${day}`;
 }
 
 function addTodo() {

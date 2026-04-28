@@ -48,6 +48,14 @@ body {
   font-size: 15px;
 }
 
+.nav-btn {
+  width: auto;
+  margin: 0;
+  padding: 10px 14px;
+  font-size: 15px;
+  background: linear-gradient(135deg, #991b1b, #ef4444);
+}
+
 .hero {
   padding: 45px 20px 70px;
   text-align: center;
@@ -191,6 +199,10 @@ button:hover {
   background: linear-gradient(135deg, #92400e, #f59e0b);
 }
 
+.print-btn {
+  background: linear-gradient(135deg, #4c1d95, #7c3aed);
+}
+
 .calendar {
   display: grid;
   grid-template-columns: 90px repeat(7, 1fr);
@@ -220,7 +232,7 @@ button:hover {
 }
 
 .day-cell {
-  min-height: 170px;
+  min-height: 185px;
   padding: 10px;
   border-left: 1px solid #bfdbfe;
   border-bottom: 1px solid #bfdbfe;
@@ -230,6 +242,14 @@ button:hover {
   font-weight: bold;
   color: #0f766e;
   margin-bottom: 8px;
+}
+
+.real-date {
+  display: block;
+  color: #334155;
+  font-size: 13px;
+  font-weight: normal;
+  margin-top: 3px;
 }
 
 .task {
@@ -319,6 +339,61 @@ button:hover {
 
 #todoList input {
   width: auto;
+}
+
+@media print {
+  body {
+    background: white !important;
+    color: black;
+  }
+
+  .background-overlay,
+  .top-nav,
+  .hero,
+  .form-card,
+  .todo-card,
+  .no-print {
+    display: none !important;
+  }
+
+  .layout {
+    display: block;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  .summary-card,
+  .calendar-section {
+    box-shadow: none;
+    border-radius: 0;
+    margin: 0;
+    padding: 15px;
+    background: white;
+  }
+
+  .calendar {
+    grid-template-columns: 70px repeat(7, 1fr);
+    font-size: 11px;
+    page-break-inside: avoid;
+  }
+
+  .day-cell {
+    min-height: 130px;
+    padding: 6px;
+  }
+
+  .task {
+    padding: 6px;
+  }
+
+  .check-item {
+    font-size: 10px;
+  }
+
+  button {
+    display: none;
+  }
 }
 
 @media (max-width: 1050px) {
