@@ -4,71 +4,102 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>CPA Study Planner</title>
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-
   <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
+  <div class="background-overlay"></div>
+
+  <nav class="top-nav">
+    <h3>Saved Calendars</h3>
+    <select id="savedCalendars" onchange="loadSelectedCalendar()">
+      <option value="">Choose saved calendar</option>
+    </select>
+  </nav>
+
   <header class="hero">
-    <div>
-      <p class="eyebrow">CPA Exam Prep Tool</p>
-      <h1>CPA Study Planner</h1>
-      <p class="hero-text">
-        Turn your exam date, modules, and study hours into a clear weekly calendar.
-      </p>
+    <div class="top-info">
+      <div class="info-box">
+        <span>New York Time</span>
+        <strong id="clock">Loading...</strong>
+      </div>
+
+      <div class="info-box">
+        <span>New York Weather</span>
+        <strong id="weather">Loading...</strong>
+      </div>
+    </div>
+
+    <p class="eyebrow">CPA Exam Prep Tool</p>
+    <h1>CPA Study Planner</h1>
+    <p class="hero-text">
+      Build your study plan, stay consistent, and walk into exam day with confidence.
+    </p>
+
+    <div class="encouragement-box">
+      <p id="encouragementText">You got this.</p>
     </div>
   </header>
 
-  <main>
-    <section class="form-card">
-      <h2>Build Your Plan</h2>
+  <main class="layout">
+    <div class="main-content">
+      <section class="form-card">
+        <h2>Build Your Plan</h2>
 
-      <div class="form-grid">
-        <div>
-          <label>CPA Exam Date</label>
-          <input type="date" id="examDate" />
+        <label>Calendar Title</label>
+        <input type="text" id="calendarTitle" placeholder="Example: Audit CPA Exam" />
+
+        <div class="form-grid">
+          <div>
+            <label>CPA Exam Date</label>
+            <input type="date" id="examDate" />
+          </div>
+
+          <div>
+            <label>Number of Modules / Topics</label>
+            <input type="number" id="modules" placeholder="Example: 12" />
+          </div>
+
+          <div>
+            <label>Total Study Hours Needed</label>
+            <input type="number" id="studyHours" placeholder="Example: 120" />
+          </div>
+
+          <div>
+            <label>Practice Exam Hours</label>
+            <input type="number" id="practiceHours" placeholder="Example: 20" />
+          </div>
         </div>
 
-        <div>
-          <label>Number of Modules / Topics</label>
-          <input type="number" id="modules" placeholder="Example: 12" />
-        </div>
+        <button onclick="generatePlan()">Generate Calendar</button>
+        <button class="save-btn" onclick="saveCurrentCalendar()">Save Calendar</button>
+      </section>
 
-        <div>
-          <label>Total Study Hours Needed</label>
-          <input type="number" id="studyHours" placeholder="Example: 120" />
+      <section class="summary-card">
+        <h2>Your Study Overview</h2>
+        <div id="summaryOutput">
+          <p>Enter your study details to generate your personalized CPA study calendar.</p>
         </div>
+      </section>
 
-        <div>
-          <label>Practice Exam Hours</label>
-          <input type="number" id="practiceHours" placeholder="Example: 20" />
+      <section class="calendar-section">
+        <h2>Visual Study Calendar</h2>
+        <div id="calendarOutput" class="calendar-placeholder">
+          Your weekly calendar will appear here.
         </div>
-        <div class="checkbox-row">
-  <input type="checkbox" id="studyEveryday" />
-  <label for="studyEveryday">Study every day until exam day</label>
-</div>
+      </section>
+    </div>
+
+    <aside class="todo-card">
+      <h2>To-Do List</h2>
+
+      <div class="todo-input-row">
+        <input type="text" id="todoInput" placeholder="Add a task..." />
+        <button onclick="addTodo()">Add</button>
       </div>
 
-      <button onclick="generatePlan()">Generate Calendar</button>
-    </section>
-
-    <section class="summary-card">
-      <h2>Your Study Overview</h2>
-      <div id="summaryOutput">
-        <p>Enter your study details to generate your personalized CPA study calendar.</p>
-      </div>
-    </section>
-
-    <section class="calendar-section">
-      <h2>Visual Study Calendar</h2>
-      <div id="calendarOutput" class="calendar-placeholder">
-        Your weekly calendar will appear here.
-      </div>
-    </section>
+      <ul id="todoList"></ul>
+    </aside>
   </main>
 
   <script src="script.js"></script>
